@@ -1,0 +1,99 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{page_title}}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Matière</th>
+                                    <th>Titre</th>
+                                    <th>Description</th>
+                                    <th>Date de Publication</th>
+                                    <th>Image</th>                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for absence in allAbsence %}
+                                <tr data-toggle="modal" data-target="#absenceModal{{ absence.id }}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{absence.matiere}}</td>
+                                    <td>{{absence.title}}</td>
+                                    <td>{{absence.description}}</td>
+                                    <td>{{absence.create_at}}</td>
+                                    <td>
+                                        {% if absence.image %}
+                                            <a href="{{ absence.image.url }}" data-lightbox="absence{{ absence.id }}" data-title="{{ absence.title }}">
+                                                <img class="img img-fluid mb-2" height="100" width="100" src="{{ absence.image.url }}" alt="{{ absence.title }}">
+                                            </a>
+                                        {% else %}
+                                            Pas d'Image
+                                        {% endif %}
+                                    </td>
+                                </tr>
+
+                                <!-- Modal pour chaque absence -->
+                                <div class="modal fade" id="absenceModal{{ absence.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">{{ absence.title }} - {{ absence.matiere }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <!-- Image avec Lightbox -->
+                                                        {% if absence.image %}
+                                                            <a href="{{ absence.image.url }}" data-lightbox="absence{{ absence.id }}" data-title="{{ absence.title }}">
+                                                                <img src="{{ absence.image.url }}" class="img-fluid" alt="{{ absence.title }}">
+                                                            </a>
+                                                        {% else %}
+                                                            <p>Pas d'image disponible</p>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h5>Titre:</h5>
+                                                        <p>{{ absence.title }}</p>
+                                                        <h5>Description:</h5>
+                                                        <p>{{ absence.description }}</p>
+                                                        <h5>Date de publication:</h5>
+                                                        <p>{{ absence.create_at }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="{% url 'edit_absence' absence.id %}" class="btn btn-primary">Edit</a>
+                                                <a href="{% url 'delete_absence' absence.id %}" class="btn btn-danger" onclick="return confirm('Vous êtes sûr de vouloir supprimer cet élément ?')">Delete</a>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox JS -->
+<script src="{% static 'lightbox2/dist/js/lightbox.min.js'%} "></script>
+<link rel="stylesheet" href="{% static 'lighbox2/dist/css/lightbox.min.css'%} ">
+{% endblock content %}

@@ -1,0 +1,625 @@
+{% load static %}
+<aside class="main-sidebar sidebar-light-danger elevation-4 ">
+{% if request.user.user_type == '1' %}
+    <!-- Brand Logo -->
+    <a href="{% url 'admin_home' %}" class="brand-link">
+        <img src="{% static 'dist/img/logoeray.jpg' %} " alt="Eray Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .9">
+        <span class="brand-text font-weight-light">ErayLearning Admin</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar shadow-lg rounded elevation-4">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{ request.user.profile_pic}}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{user}}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2 shadow-lg rounded">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <li class="nav-item">
+                    {% url 'admin_home' as admin_home %}
+                    <a href="{{admin_home}}" class="nav-link {% if admin_home == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'admin_view_profile' as admin_view_profile %}
+                    <a href="{{admin_view_profile}}" class="nav-link {% if admin_view_profile == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Profile
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_actus' as add_actus %}
+                    <a href="{{add_actus}}" class="nav-link {% if add_actus == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-sun"></i>
+                        <p>
+                            Ajout Actus
+
+                        </p>
+                    </a>
+                </li>
+                {% comment %} <li class="nav-item">
+                    {% url 'edit_actus' as edit_actus %}
+                    <a href="{{edit_actus}}" class="nav-link {% if edit_actus == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-sun"></i>
+                        <p>
+                            Editer Actus
+
+                        </p>
+                    </a>
+                </li> {% endcomment %}
+                <li class="nav-item">
+                    {% url 'manage_actus' as manage_actus %}
+                    {% url 'edit_actus' actus_id as edit_actus %}
+                    <a href="{{manage_actus}}"
+                        class="nav-link  {% if edit_actus == request.path or manage_actus == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Gérer Actus
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_edt' as add_edt %}
+                    <a href="{{add_edt}}" class="nav-link {% if add_edt == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-sun"></i>
+                        <p>
+                            Ajout EDT
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'manage_edt' as manage_edt %}
+                    {% url 'edit_edt' edt_id as edit_edt %}
+                    <a href="{{manage_edt}}"
+                        class="nav-link  {% if edit_edt == request.path or manage_edt == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>
+                            Gérer EDT
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_absence' as add_absence %}
+                    <a href="{{add_absence}}" class="nav-link {% if add_absence == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-sun"></i>
+                        <p>
+                            Ajout Absence
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'manage_absence' as manage_absence %}
+                    {% url 'edit_actus' absence_id as edit_absence %}
+                    <a href="{{manage_absence}}"
+                        class="nav-link  {% if edit_absence == request.path or manage_absence == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Gérer Absence
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'admin_notify_staff' as admin_notify_staff %}
+                    <a href="{{admin_notify_staff}}" class="nav-link {% if admin_notify_staff == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>
+                            Notifier les Enseignant
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'admin_notify_student' as admin_notify_student %}
+                    <a href="{{admin_notify_student}}" class="nav-link {% if admin_notify_student == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-regular fa-bell"></i>
+                        <p>
+                            Notifier les étudiant(e)s
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_staff' as add_staff %}
+                    <a href="{{add_staff}}" class="nav-link {% if add_staff == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-plus"></i>
+                        <p>
+                            Ajout Enseignant
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'manage_staff' as manage_staff %}
+                    {% url 'edit_staff' staff_id as edit_staff %}
+                    <a href="{{manage_staff}}"
+                        class="nav-link {% if manage_staff == request.path or request.path == edit_staff %} active {% endif %}">
+                        <i class="nav-icon fas fa-solid fa-graduation-cap"></i>
+                        <p>
+                            Gérer Enseignant
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_student' as add_student%}
+                    <a href="{{add_student}}" class="nav-link  {% if add_student == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-graduation-cap"></i>
+                        <p>
+                            Ajout étudiant
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'manage_student' as manage_student %}
+                    {% url 'edit_student' student_id as edit_student %}
+
+                    <a href="{{manage_student}}"
+                        class="nav-link  {% if edit_student == request.path or manage_student == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-graduation-cap"></i>
+                        <p>
+                            Gérer étudiant
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_course' as add_course %}
+                    <a href="{{add_course}}" class="nav-link  {% if add_course == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-plus"></i>
+                        <p>
+                            Ajout Filière
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'manage_course' as manage_course %}
+                    {% url 'edit_course' course_id as edit_course %}
+                    <a href="{{manage_course}}"
+                        class="nav-link  {% if edit_course == request.path or manage_course == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Gérer Filière
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_subject' as add_subject %}
+                    <a href="{{add_subject}}" class="nav-link  {% if add_subject == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-pen"></i>
+                        <p>
+                            Ajout Matière
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'manage_subject' as manage_subject %}
+                    {% url 'edit_subject' subject_id as edit_subject %}
+                    <a href="{{manage_subject}}"
+                        class="nav-link  {% if edit_subject == request.path or manage_subject == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Gérer Matière
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'add_session' as add_session %}
+                    <a href="{{add_session}}" class="nav-link  {% if add_session == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-plus"></i>
+                        <p>
+                            Ajout Session
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                {% url 'manage_session' as manage_session %}
+                {% url 'edit_session' session_id as edit_session %}
+                <a href="{{manage_session}}"
+                    class="nav-link  {% if edit_session == request.path or manage_session == request.path %} active {% endif %}">
+                    <i class="nav-icon fas fa-book"></i>
+                    <p>
+                        Gérer Session
+
+                    </p>
+                </a>
+        </li>
+                <li class="nav-item">
+                    {% url 'admin_view_attendance' as admin_view_attendance %}
+
+                    <li class="nav-item">
+                        <a href="{{admin_view_attendance}}" class="nav-link  {% if admin_view_attendance == request.path %} active {% endif %}">
+                            <i class="nav-icon fas fa-th"></i>
+                            <p>
+                                 Absence
+                            </p>
+                        </a>
+                    </li>  
+            <li class="nav-item">
+                {% url 'student_feedback_message' as student_feedback_message %}
+
+                <a href="{{ student_feedback_message }}" class="nav-link  {% if student_feedback_message == request.path %} active {% endif %}">
+                    <i class="nav-icon fas fa-inbox"></i>
+                    <p>
+                        Retour Etudiant
+                        <span class="badge badge-secondary navbar-badge"> {{student_feedback_counts}} </span>     
+                    </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                {% url 'staff_feedback_message' as staff_feedback_message %}
+
+                    <a href="{{staff_feedback_message}}" class="nav-link   {% if staff_feedback_message == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-envelope"></i>
+                        <p>
+                            Retour Enseignant
+                            <span class="badge badge-secondary navbar-badge"> {{staff_feedback_counts}} </span>
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                {% url 'view_staff_leave' as view_staff_leave %}
+
+                    <a href="{{view_staff_leave}}" class="nav-link  {% if view_staff_leave == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-trash"></i>
+                        <p>
+                            Permission Enseignant
+                            
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                {% url 'view_student_leave' as view_student_leave %}
+
+                    <a href="{% url 'view_student_leave' %}" class="nav-link  {% if view_student_leave == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-trash"></i>
+                        <p>
+                            Permission Etudiant
+                            
+                        </p>
+                    </a>
+                </li>
+                
+{% elif request.user.user_type == '2' %}
+    <!-- Brand Logo -->
+    <a href="#" class="brand-link">
+        <img src="{% static 'dist/img/logoeray.jpg' %} " alt="Eraylearnig Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Enseignant dashboard</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{ request.user.profile_pic}}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{ user}}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <li class="nav-item">
+                    {% url 'staff_home' as staff_home %}
+                    <a href="{{staff_home}}" class="nav-link {% if staff_home == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'staff_view_profile' as staff_view_profile %}
+                    <a href="{{staff_view_profile}}" class="nav-link {% if staff_view_profile == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Profile
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'staff_add_cours' as staff_add_cours %}
+                    <a href="{{staff_add_cours}}" class="nav-link {% if staff_add_cours == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Ajout Cours
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'staff_manage_cours' as staff_manage_cours %}
+                    <a href="{{staff_manage_cours}}" class="nav-link {% if staff_manage_cours == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-inbox"></i>
+                        <p>
+                            List Cours
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'staff_add_result' as staff_add_result %}
+                    <a href="{{staff_add_result}}" class="nav-link {% if staff_add_result == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>
+                            Ajout Notes
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'staff_view_result' as staff_view_result %}
+                    <a href="{{ staff_view_result }}" class="nav-link {% if staff_view_result == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-pen"></i>
+                        <p>
+                            List Notes
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'staff_list_absence' as staff_list_absence %}
+                    <a href="{{staff_list_absence}}" class="nav-link {% if staff_list_absence == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-stop"></i>
+                        <p>
+                            List Absence
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'staff_add_absence' as staff_add_absence %}
+                    <a href="{{staff_add_absence}}" class="nav-link {% if staff_add_absence == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-pen"></i>
+                        <p>
+                            Ajout Absence
+
+                        </p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    {% url 'staff_view_notification' as staff_view_notification %}
+                    <a href="{{staff_view_notification}}" class="nav-link {% if staff_view_notification == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>
+                            Notifications
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'staff_apply_leave' as staff_apply_leave %}
+                    <a href="{{staff_apply_leave}}" class="nav-link {% if staff_apply_leave == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-check"></i>
+                        <p>
+                           Demande de congé
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'staff_feedback' as staff_feedback %}
+                    <a href="{{staff_feedback}}" class="nav-link {% if staff_feedback == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-comment"></i>
+                        <p>
+                           Retours
+                        </p>
+                    </a>
+                </li>
+          
+{% else %}
+    <!-- Brand Logo -->
+    <a href="" class="brand-link">
+        
+        <img src="{% static 'dist/img/logoeray.jpg' %} " alt="ErayLearning Logo"
+            class="brand-image img-circle elevation-3" style="opacity: .8">
+        <span class="brand-text font-weight-light">Etudiant ErayLearning</span>
+    </a>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <!-- Sidebar user panel (optional) -->
+        <div class="user-panel mt-3 pb-3 mb-3 d-flex">
+            <div class="image">
+                <img src="{{ request.user.profile_pic}}" class="img-circle elevation-2" alt="User Image">
+            </div>
+            <div class="info">
+                <a href="#" class="d-block">{{user}}</a>
+            </div>
+        </div>
+
+        <!-- Sidebar Menu -->
+        <nav class="mt-2">
+            <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+
+                <li class="nav-item">
+                    {% url 'student_home' as student_home %}
+                    <a href="{{student_home}}" class="nav-link {% if student_home == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-home"></i>
+                        <p>
+                            Home
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_view_profile' as student_view_profile %}
+                    <a href="{{student_view_profile}}" class="nav-link {% if student_view_profile == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-user"></i>
+                        <p>
+                            Profile
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_view_result' as student_view_result %}
+                    <a href="{% url 'student_view_result' %}" class="nav-link {% if student_view_result == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-book"></i>
+                        <p>
+                            Notes
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_list_cours' as student_list_cours %}
+                    <a href="{% url 'student_list_cours' %}" class="nav-link {% if student_list_cours == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-pen"></i>
+                        <p>
+                            Les Cours
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_list_absence' as student_list_absence %}
+                    <a href="{{student_list_absence}}" class="nav-link {% if student_list_absence == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-th"></i>
+                        <p>Voir Absence</p>
+                    </a>
+                </li>
+                <li class="nav-item"></li>
+                    {% url 'student_list_edt' as student_list_edt %}
+                    <a href="{{student_list_edt}}" class="nav-link {% if student_list_edt == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-clock"></i>
+                        <p>Voir EDT</p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_view_notification' as student_view_notification %}
+                    <a href="{{student_view_notification}}" class="nav-link {% if student_view_notification == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-bell"></i>
+                        <p>
+                           Notifications
+                        
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_apply_leave' as student_apply_leave %}
+                    <a href="{{student_apply_leave}}" class="nav-link {% if student_apply_leave == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-trash"></i>
+                        <p>
+                           Demande permission
+
+                        </p>
+                    </a>
+                </li>
+
+                <li class="nav-item">
+                    {% url 'student_feedback' as student_feedback %}
+                    <a href="{{student_feedback}}" class="nav-link {% if student_feedback == request.path %} active {% endif %}">
+                        <i class="nav-icon fas fa-envelope"></i>
+                        <p>
+                           Retours
+
+                        </p>
+                    </a>
+                </li>
+          
+{% endif %}
+ <!-- Lien de déconnexion -->
+<li class="nav-item">
+    <a href="#" id="logoutLink" class="nav-link" onclick="return false">
+        <i class="nav-icon fas fa-arrow-down"></i>
+        <p>
+            Déconnexion
+        </p>
+    </a>
+</li>
+
+<div class="my-modal-wrapper" style="position: absolute; z-index: -99999;">
+    <!-- Modal Bootstrap pour la confirmation -->
+<div class="modal fade hide" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="logoutModalLabel">Confirmation de Déconnexion</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <p>Êtes-vous sûr de vouloir déconnecter, <strong>{{ user.first_name|upper }}</strong> ?</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Annuler</button>
+          <a href="{% url 'user_logout' %}" class="btn btn-danger">Déconnecter</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    </ul>
+    </nav>
+<!-- /.sidebar-menu -->
+</div>
+<!-- /.sidebar -->
+</aside>
+<style>
+    .modal-backdrop.show {
+        z-index: -9999;
+    }
+</style>
+{% block custom_js %}
+<script>
+    // Attendre que le DOM soit chargé avant d'exécuter le script
+document.addEventListener('DOMContentLoaded', function() {
+    // Sélectionner le lien de déconnexion
+    const logoutLink = document.getElementById('logoutLink');
+    
+    // Ajouter un événement au clic
+    logoutLink.addEventListener('click', function(event) {
+        event.preventDefault(); // Empêche le lien de rediriger immédiatement
+        // Afficher le modal Bootstrap
+        const logoutModal = new bootstrap.Modal(document.getElementById('logoutModal'));
+        // const backdrop = document.querySelector('modal-backdrop');
+        // backdrop.ariaHidden = true;
+
+        logoutModal.show();
+    });
+});
+
+
+</script>
+{% endblock custom_js %}

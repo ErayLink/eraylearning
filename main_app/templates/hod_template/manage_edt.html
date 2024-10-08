@@ -1,0 +1,97 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+
+{% block content %}
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h3 class="card-title">{{page_title}}</h3>
+                    </div>
+                    <!-- /.card-header -->
+                    <div class="card-body">
+                        <table id="example2" class="table table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th>SN</th>
+                                    <th>Matiere</th>
+                                    <th>Filiere</th>
+                                    <th>Image</th>
+                                    <th>Date</th>                                
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for edt in allEdt %}
+                                <tr data-toggle="modal" data-target="#edtModal{{ edt.id }}">
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ edt.matiere }}</td>
+                                    <td>{{ edt.filiere }}</td>
+                                    <td>
+                                        {% if edt.image %}
+                                            <a href="{{ edt.image.url }}" data-lightbox="edt{{ edt.id }}" data-title="{{ edt.matiere }}">
+                                                <img class="img img-fluid mb-2" height="100" width="100" src="{{ edt.image.url }}" alt="{{ edt.matiere }}">
+                                            </a>
+                                        {% else %}
+                                            Pas d'Image
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ edt.create_at }}</td>
+                                </tr>
+
+                                <!-- Modal pour chaque EDT -->
+                                <div class="modal fade" id="edtModal{{ edt.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog modal-lg" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title">{{ edt.matiere }} - {{ edt.filiere }}</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                    <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <!-- Image avec Lightbox -->
+                                                        {% if edt.image %}
+                                                            <a href="{{ edt.image.url }}" data-lightbox="edt{{ edt.id }}" data-title="{{ edt.matiere }}">
+                                                                <img src="{{ edt.image.url }}" class="img-fluid" alt="{{ edt.matiere }}">
+                                                            </a>
+                                                        {% else %}
+                                                            <p>Pas d'image disponible</p>
+                                                        {% endif %}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <h5>Matière:</h5>
+                                                        <p>{{ edt.matiere }}</p>
+                                                        <h5>Filière:</h5>
+                                                        <p>{{ edt.filiere }}</p>
+                                                        <h5>Date de création:</h5>
+                                                        <p>{{ edt.create_at }}</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <a href="{% url 'edit_edt' edt.id %}" class="btn btn-primary">Edit</a>
+                                                <a href="{% url 'delete_edt' edt.id %}" class="btn btn-danger" onclick="return confirm('Vous êtes sûr de vouloir supprimer cet élément ?')">Delete</a>
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Lightbox JS -->
+<script src="{% static 'lightbox2/dist/js/lightbox.min.js'%} "></script>
+<link rel="stylesheet" href="{% static 'lighbox2/dist/css/lightbox.min.css'%} ">
+{% endblock content %}

@@ -1,0 +1,109 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>ErayLearning | Log in</title>
+    <!-- Tell the browser to be responsive to screen width -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'plugins/fontawesome-free/css/all.min.css' %}">
+    <!-- Ionicons -->
+    <link rel="stylesheet" href="{% static 'https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css' %}">
+    <!-- icheck bootstrap -->
+    <link rel="stylesheet" href="{% static 'plugins/icheck-bootstrap/icheck-bootstrap.min.css' %}">
+    <!-- Theme style -->
+    <link rel="stylesheet" href="{% static 'dist/css/adminlte.min.css' %}">
+    <link rel="shortcut icon" href="{% static 'dist/img/logoeray.jpg' %}" type="image/x-icon" class="img-circle">
+    <!-- Google Font: Source Sans Pro -->
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
+    <!-- Google Recaptcha     -->
+    {% comment %} <script src="https://www.google.com/recaptcha/api.js" async defer></script> {% endcomment %}
+</head>
+
+<body class="hold-transition login-page bg-dark">
+    <h1 class="mb-4 p-4 shadow-lg"><i>ErayCompany ©</i></h1>
+    <div class="login-box border border-dark rounded">
+        {% comment %} <div class="login-logo bg-info">
+            <a href="{% url 'login_page' %}"><b>Eray</b>Learning</a>
+
+        </div> {% endcomment %}
+        <!-- /.login-logo -->
+        <div class="card">
+            <div class="card-body login-card-body">
+                <h3 class="login-box-msg text-info">ErayLearning</h3>
+                {% if messages %}
+                <div class="col-12">
+                    {% for message in messages %}
+                    {% if message.tags == 'error' %}
+                    <div class="alert alert-danger text-center ">
+                        {{message }}
+                    </div>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <form action="doLogin/" method="post">
+                    {% csrf_token %}
+                    <div class="input-group mb-3">
+                        <input required type="email" name='email' class="form-control shadow-sm" placeholder="Email">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-envelope"></span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="input-group mb-3">
+                        <input required type="password" name='password' class="form-control shadow-sm" placeholder="Mot de passe">
+                        <div class="input-group-append">
+                            <div class="input-group-text">
+                                <span class="fas fa-lock"></span>
+                            </div>
+                        </div>
+                    </div>
+                    {% comment %} <div class="input-group mb-3">
+                        <div class="g-recaptcha" data-sitekey="6LfswtgZAAAAAJ7bhwqZZtDpBsc75ekH6FWA4Fnt"></div>
+
+                    </div> {% endcomment %}
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="icheck-primary">
+                                <input type="checkbox" id="remember">
+                                <label for="remember">
+                                    Se souvenir de moi
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                        <!-- /.col -->
+                        <div class="row">
+                            <div class="col-12 my-3">
+                                <button type="submit" class="btn btn-info btn-block">Login</button>
+                            </div>
+                        </div>
+                        <!-- /.col -->
+                </form>
+
+
+                <p class="my-1 text-right">
+                    <a href="{% url 'password_reset' %}">Mot de passe oûblié ?</a>
+                </p>
+
+            </div>
+            <!-- /.login-card-body -->
+        </div>
+    </div>
+    <!-- /.login-box -->
+
+    <!-- jQuery -->
+    <script src="{% static 'plugins/jquery/jquery.min.js' %}"></script>
+    <!-- Bootstrap 4 -->
+    <script src="{% static 'plugins/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <!-- AdminLTE App -->
+    <script src="{% static 'dist/js/adminlte.min.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,108 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+
+{% block content %}
+
+<!-- Lightbox JS -->
+<script src="{% static 'lightbox2/dist/js/lightbox.min.js'%} "></script>
+<link rel="stylesheet" href="{% static 'lighbox2/dist/css/lightbox.min.css'%} ">
+
+<section class="content">
+    <div class="container shadow p-4 rounded">
+        <hr class="shadow-lg">
+        <h1 class="m-3 text-center text-bold">LIST DES ABSENCES</h1>
+        <hr>
+        <div class="row">
+            {% for absence in page_obj %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100 shadow-lg rounded" data-toggle="modal" data-target="#absenceModal{{ absence.id }}" style="cursor: pointer;">
+                        {% if absence.file %}
+                            <img src="{{ absence.file.url }}" class="card-img-left justify-content-center" alt="{{ absence.matiere }}" style="object-fit: cover; height: 150px;">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ absence.matiere }}</h5>
+                            <p class="card-text text-danger text-bold">{{ user }}</p>
+                        </div>
+                        <div class="card-footer text-muted">
+                            <small>Publié le {{ absence.create_at|date:"d M Y / H:i:s" }}</small>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal for each EDT -->
+                <div class="modal fade" id="absenceModal{{ absence.id }}" tabindex="-1" aria-labelledby="absenceModalLabel{{ absence.id }}" aria-hidden="true">
+                    <div class="modal-dialog modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="absenceModalLabel{{ absence.id }}">Absence: {{ absence.matiere }} de <span class="text-danger text-bold">{{user}}</span></h5>
+                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        {% if absence.file.url != "" %}
+                                            <!-- Link with Lightbox -->
+                                            <a href="{{ absence.file.url }}" data-lightbox="absenceImage{{ absence.id }}" data-title="{{ absence.matiere }}">
+                                                <img src="{{ absence.file.url }}" class="img-fluid" alt="{{ absence.matiere }}" style="max-height: 400px; object-fit: cover;">
+                                            </a>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><strong>Etudiant :</strong> {{ absence.student }}</p>
+                                        <p><strong>Matière :</strong> {{ absence.matiere }}</p>
+                                        <p><strong>Date de publication :</strong> {{ absence.create_at|date:"d M Y / H:i:s" }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                {% if page_obj.has_previous %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page=1" aria-label="Première">
+                            <span aria-hidden="true">&laquo;</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Précédente">
+                            <span aria-hidden="true">Précédente</span>
+                        </a>
+                    </li>
+                {% endif %}
+
+                {% for num in page_obj.paginator.page_range %}
+                    <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                        <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                    </li>
+                {% endfor %}
+
+                {% if page_obj.has_next %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Suivante">
+                            <span aria-hidden="true">Suivante</span>
+                        </a>
+                    </li>
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Dernière">
+                            <span aria-hidden="true">&raquo;</span>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </nav>
+    </div>
+</section>
+
+{% endblock content %}

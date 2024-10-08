@@ -1,0 +1,131 @@
+{% extends 'main_app/base.html' %}
+{% load static %}
+{% block page_title %}{{page_title}}{% endblock page_title %}
+
+{% block content %}
+
+<section class="content">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h3 class="card-title">{{page_title}}</h3>
+                    </div>
+
+                    <div class="container shadow p-4 rounded">
+                        <hr class="shadow-lg">
+                        <h1 class="m-3 text-center text-bold">LISTE DES COURS</h1>
+                        <hr>
+                        <div class="row">
+                          {% for cours in page_obj %}
+                            <div class="col-md-4 mb-4">
+                              <!-- Carte cliquable pour chaque cours -->
+                              <div class="card h-100 shadow-lg rounded" data-toggle="modal" data-target="#modalCours{{ cours.id }}">
+                                {% if cours.video %}
+                                  <img src="{{ cours.video.url }}" class="card-img-left justify-content-center" alt="{{ cours.title }}" style="object-fit: cover; height: 150px;">
+                                {% else %}
+                                  <img src="{{ cours.image.url }}" class="card-img-left justify-content-center" alt="{{ cours.title }}" style="object-fit: cover; height: 150px;">
+                                {% endif %}
+                                <div class="card-body">
+                                  <h5 class="card-title">{{ cours.title }}</h5>
+                                  <p class="card-text">{{ cours.description|truncatewords:20 }}</p>
+                                  <p class="card-text">{{ cours.code }}</p>
+                                </div>
+                                <div class="card-footer text-muted">
+                                  <small>Créé par {{ cours.created_by }}</small>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Modal pour afficher les détails du cours -->
+                            <div class="modal fade" id="modalCours{{ cours.id }}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                              <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
+                                  <div class="modal-header">
+                                    <h5 class="modal-title">{{ cours.title }}</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                    </button>
+                                  </div>
+                                  <div class="modal-body">
+                                    <div class="row">
+                                      <div class="col-md-8">
+                                        {% if cours.video %}
+                                          <video width="100%" height="auto" poster="{{ cours.video.url }}" controls>
+                                            <source src="{{ cours.video.url }}" type="video/mp4">
+                                            Votre navigateur ne prend pas en charge la vidéo.
+                                          </video>
+                                        {% endif %}
+                                        {% if cours.image %}
+                                          <img src="{{ cours.image.url }}" class="img-fluid" alt="{{ cours.title }} image">
+                                        {% endif %}
+                                      </div>
+                                      <div class="col-md-4">
+                                        <h5>Description</h5>
+                                        <p>{{ cours.description }}</p>
+                                        <hr>
+                                        <p><strong>Code du cours:</strong> {{ cours.code }}</p>
+                                        <p><strong>Lien video du cours:</strong> <a href="{{ cours.link }}" _blank="true" > click ici</a></p>
+                                        <p><strong>Créé par:</strong> {{ cours.created_by }}</p>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          {% endfor %}
+                        </div>
+
+                        <!-- Pagination -->
+                        <nav aria-label="Page navigation">
+                          <ul class="pagination justify-content-center">
+                            {% if page_obj.has_previous %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page=1" aria-label="Première">
+                                  <span aria-hidden="true">&laquo;</span>
+                                </a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Précédente">
+                                  <span aria-hidden="true">Précédente</span>
+                                </a>
+                              </li>
+                            {% endif %}
+                      
+                            {% for num in page_obj.paginator.page_range %}
+                              <li class="page-item {% if page_obj.number == num %}active{% endif %}">
+                                <a class="page-link" href="?page={{ num }}">{{ num }}</a>
+                              </li>
+                            {% endfor %}
+                      
+                            {% if page_obj.has_next %}
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Suivante">
+                                  <span aria-hidden="true">Suivante</span>
+                                </a>
+                              </li>
+                              <li class="page-item">
+                                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Dernière">
+                                  <span aria-hidden="true">&raquo;</span>
+                                </a>
+                              </li>
+                            {% endif %}
+                          </ul>
+                        </nav>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Include jQuery and Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock content %}
