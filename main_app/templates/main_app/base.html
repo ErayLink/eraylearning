@@ -56,19 +56,19 @@
       <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
       <i class="fas fa-graduation-cap">ErayLearning</i>
       </a>
-      {% if request.user.user_type == '3' or request.user.user_type == '2' %}
+      {% if request.user.user_type == '3' %}
       <div class="dropdown-menu bg-darkdanger" aria-labelledby="navbarDropdown2">
-        <a class="dropdown-item" href="{% url 'staff_list_absence' %}">Absence</a>
-        <a class="dropdown-item" href="{% url 'student_feedback' %}">EDT</a>
+        <a class="dropdown-item" href="{% url 'student_list_absence' %}">Absence</a>
+        <a class="dropdown-item" href="{% url 'student_list_edt' %}">EDT</a>
       {% elif request.user.user_type == '1' %}
       <div class="dropdown-menu bg-darkdanger" aria-labelledby="navbarDropdown2">
-        <a class="dropdown-item" href="{% url 'admin_view_attendance' %}">Absence</a>
+        <a class="dropdown-item" href="{% url 'manage_absence' %}">Absence</a>
         <div class="dropdown-divider"></div>
-        <a class="dropdown-item" href="{% url 'add_course' %}">EDT</a>
-      {% else %}
+        <a class="dropdown-item" href="{% url 'manage_edt' %}">EDT</a>
+      {% elif request.user.user_type == '2' %}
         <div class="dropdown-menu bg-darkdanger" aria-labelledby="navbarDropdown2">
         <a class="dropdown-item" href="{% url 'staff_list_absence' %}">Absence</a>
-        <a class="dropdown-item" href="{% url 'student_feedback' %}">EDT</a>
+        <a class="dropdown-item" href="{% url 'student_list_edt' %}">EDT</a>
       {% endif %}
         {% comment %} Seul Admin peuveut ajouté des etudiants {% endcomment %}
         {% if request.user.user_type == '1' %}

@@ -49,7 +49,7 @@ class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
     user_type = models.CharField(default=1, choices=USER_TYPE, max_length=1)
     genre = models.CharField(max_length=1, choices=GENRE)
-    profile_pic = models.ImageField()
+    profile_pic = models.ImageField(upload_to="profile_pic/")
     address = models.TextField()
     fcm_token = models.TextField(default="")  # For firebase notifications
     created_at = models.DateTimeField(auto_now_add=True)
@@ -181,7 +181,7 @@ class Actus(models.Model):
     title = models.CharField(max_length=200, blank=True, null=True)
     description = models.TextField(max_length=500, null=True, blank=True)
     create_at = models.DateTimeField(auto_now_add=True)
-    image = models.ImageField()
+    image = models.ImageField(upload_to="actus/")
 
     def __str__(self):
         return f"{self.title}"
@@ -236,7 +236,7 @@ class Cours(models.Model):
     description = models.TextField()
     link = models.URLField(max_length=500, blank=True, null=True)
     #students = models.ManyToManyField(Student, related_name='cours')
-    video = models.FileField(upload_to="videos/", blank=True, null=True,)
+    video = models.FileField(upload_to="videos/", blank=True, null=True,max_length=500)
     image = models.ImageField(upload_to="images/", blank=True, null=True, name="poster")
     created_by = models.ForeignKey(Staff, on_delete=models.CASCADE, null=True)  # Assuming User is used for both teachers and admins
     def __str__(self):

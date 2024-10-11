@@ -23,9 +23,9 @@
                               <!-- Carte cliquable pour chaque cours -->
                               <div class="card h-100 shadow-lg rounded" data-toggle="modal" data-target="#modalCours{{ cours.id }}">
                                 {% if cours.video %}
-                                  <img src="{{ cours.video.url }}" class="card-img-left justify-content-center" alt="{{ cours.title }}" style="object-fit: cover; height: 150px;">
+                                  <img src="{{ cours.poster.url }}" class="card-img-left justify-content-center" alt="{{ cours.title }}" style="object-fit: cover; height: 150px;">
                                 {% else %}
-                                  <img src="{{ cours.image.url }}" class="card-img-left justify-content-center" alt="{{ cours.title }}" style="object-fit: cover; height: 150px;">
+                                  <img src="{{ cours.poster.url }}" class="card-img-left justify-content-center" alt="{{ cours.title }}" style="object-fit: cover; height: 150px;">
                                 {% endif %}
                                 <div class="card-body">
                                   <h5 class="card-title">{{ cours.title }}</h5>
@@ -52,8 +52,10 @@
                                     <div class="row">
                                       <div class="col-md-8">
                                         {% if cours.video %}
-                                          <video width="100%" height="auto" poster="{{ cours.video.url }}" controls>
+                                          <video width="100%" height="auto" poster="{{ cours.poster.url }}" controls oncontextmenu="return false;" controlslist="nodownload">
                                             <source src="{{ cours.video.url }}" type="video/mp4">
+                                            <source src="{{ cours.video.url }}" type="video/webm">
+                                            <source src="{{ cours.video.url }}" type="video/ogg">
                                             Votre navigateur ne prend pas en charge la vidéo.
                                           </video>
                                         {% endif %}
@@ -67,7 +69,7 @@
                                         <hr>
                                         <p><strong>Code du cours:</strong> {{ cours.code }}</p>
                                         <p><strong>Lien video du cours:</strong> <a href="{{ cours.link }}" _blank="true" > click ici</a></p>
-                                        <p><strong>Créé par:</strong> {{ cours.created_by }}</p>
+                                        <p><strong>Créé par:</strong> {{ cours.created_by.username }}</p>
                                       </div>
                                     </div>
                                   </div>

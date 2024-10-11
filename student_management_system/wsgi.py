@@ -10,7 +10,9 @@ https://docs.djangoproject.com/en/3.1/howto/deployment/wsgi/
 import os
 
 from django.core.wsgi import get_wsgi_application
+from dj_static import Cling, MediaCling
+from static_ranges import Ranges
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'student_management_system.settings')
 
-application = get_wsgi_application()
+application = Ranges(Cling(MediaCling(get_wsgi_application())))

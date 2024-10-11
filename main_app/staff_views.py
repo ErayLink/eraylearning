@@ -356,7 +356,7 @@ def add_cours(request):
             title = form.cleaned_data.get("title")
             description = form.cleaned_data.get("description")
             video = form.cleaned_data.get("video")
-            image = form.cleaned_data.get("image")
+            image = form.cleaned_data.get("poster")
             creator = request.user.username
 
             try:
@@ -365,7 +365,7 @@ def add_cours(request):
                     link=link,
                     # students=students,
                     video=video,
-                    image=image,
+                    poster=image,
                     title=title,
                     description=description,
                     created_by=creator

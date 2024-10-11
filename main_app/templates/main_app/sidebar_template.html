@@ -165,7 +165,7 @@
                 <li class="nav-item">
                     {% url 'add_student' as add_student%}
                     <a href="{{add_student}}" class="nav-link  {% if add_student == request.path %} active {% endif %}">
-                        <i class="nav-icon fas fa-graduation-cap"></i>
+                        <i class="nav-icon fas fa-plus"></i>
                         <p>
                             Ajout étudiant
 
@@ -210,7 +210,7 @@
                 <li class="nav-item">
                     {% url 'add_subject' as add_subject %}
                     <a href="{{add_subject}}" class="nav-link  {% if add_subject == request.path %} active {% endif %}">
-                        <i class="nav-icon fas fa-pen"></i>
+                        <i class="nav-icon fas fa-plus"></i>
                         <p>
                             Ajout Matière
 
@@ -288,7 +288,7 @@
                 {% url 'view_staff_leave' as view_staff_leave %}
 
                     <a href="{{view_staff_leave}}" class="nav-link  {% if view_staff_leave == request.path %} active {% endif %}">
-                        <i class="nav-icon fas fa-trash"></i>
+                        <i class="nav-icon fas fa-pen"></i>
                         <p>
                             Permission Enseignant
                             
@@ -405,7 +405,7 @@
                 <li class="nav-item">
                     {% url 'staff_add_absence' as staff_add_absence %}
                     <a href="{{staff_add_absence}}" class="nav-link {% if staff_add_absence == request.path %} active {% endif %}">
-                        <i class="nav-icon fas fa-pen"></i>
+                        <i class="nav-icon fas fa-plus"></i>
                         <p>
                             Ajout Absence
 

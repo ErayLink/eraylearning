@@ -94,7 +94,7 @@ def add_student(request):
             last_name = student_form.cleaned_data.get('last_name')
             address = student_form.cleaned_data.get('address')
             email = student_form.cleaned_data.get('email')
-            genre = student_form.cleaned_data.get('gender')
+            genre = student_form.cleaned_data.get('genre')
             password = student_form.cleaned_data.get('password')
             course = student_form.cleaned_data.get('course')
             session = student_form.cleaned_data.get('session')
